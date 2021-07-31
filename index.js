@@ -12,6 +12,32 @@ const options = [
     }
 ]
 
+const newDepartment = [
+    {
+        type: 'input',
+        name: 'department',
+        message: 'What is the name of the new department?'
+    }
+]
+
+const newRole = [
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What is the name of the new role?'
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'What is the salary for this role?'
+    },
+    {
+        type: 'input',
+        name: 'department_id',
+        message: 'What is the id of the department this role belongs too?'
+    }
+]
+
 function init(){
     inquirer.prompt(options).then(res => {
         console.log(res)
@@ -38,25 +64,27 @@ function init(){
 };
 
 function allDepartments() {
-    const departments = db.query()
+    const departments = db.query('SELECT * FROM departments')
     console.table(departments)
     init();
 };
 
 function allRoles() {
-    const roles = db.query()
+    const roles = db.query('SELECT * FROM roles')
     console.table(roles)
     init();
 };
 
 function allEmployees() {
-    const employees = db.query()
+    const employees = db.query('SELECT * FROM employee')
     console.table(employees)
     init();
 };
 
 function addDepartment() {
     
+    const departments = db.query('SELECT * FROM departments')
+    console.table(departments)
     init();
 };
 
