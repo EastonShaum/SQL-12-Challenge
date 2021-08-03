@@ -20,7 +20,7 @@ VALUES ('CEO', 1000000, 1),
 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Jeff', 'Bezos', 1, 1),
+VALUES ('Jeff', 'Bezos', 1, NULL),
         ('Steven', 'Trabajos', 2, 1),
         ('Jefe', 'Kisses', 2, 1),
         ('Andrew', 'Jones', 2, 1),

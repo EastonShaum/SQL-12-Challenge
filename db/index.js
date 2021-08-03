@@ -16,8 +16,16 @@ class Db {
 
 
     addDepartments(departmentName){
-        console.log('1.0')
+        
         return this.db.promise().query('INSERT INTO department (name) VALUES ?', [departmentName])
+    }
+
+    addRoles(newRole){
+        this.db.promise().query('INSERT INTO  role (title, salary, department_id) VALUES ?', [newRole])
+    }
+
+    addEmployees(newEmployee){
+        this.db.promise().query('INSERT INTO  employee (first_name, last_name , role_id , manager_id) VALUES ?', [newEmployee])
     }
 }
 

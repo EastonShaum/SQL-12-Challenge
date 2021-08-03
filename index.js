@@ -10,7 +10,7 @@ const options = [
         type: 'list',
         name: 'initOptions',
         message: 'Which would you like to view?',
-        choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Quit']
+        choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Quit']
     }
 ]
 
@@ -40,9 +40,31 @@ const newRole = [
     }
 ]
 
+const newEmployee = [
+    {
+        type: 'input',
+        name: 'first_name',
+        message: 'What is the first name of the new Employee?'
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'What is the last name of the new Employee?'
+    },
+    {
+        type: 'input',
+        name: 'role_id',
+        message: 'What is the Employee\'s role id number?'
+    },
+    {
+        type: 'input',
+        name: 'manager_id',
+        message: 'What is the Employee\'s manager id number?'
+    }
+]
+
 function init(){
     inquirer.prompt(options).then(res => {
-        console.log(res)
         switch(res.initOptions) {
             case ('View All Departments'): 
                 allDepartments();
@@ -58,6 +80,9 @@ function init(){
                 break;
             case ('Add a Role'):
                 addRole();
+                break;
+            case ('Add an Employee'):
+                addEmployee();
                 break;
             case ('Quit'):
                 break;
@@ -94,9 +119,9 @@ function allEmployees() {
 
 async function addDepartment() {
      await inquirer.prompt(newDepartment).then(res => {
+        const newDepartment = []
+        newDepartment.push([res.department])
         
-        const newDepartment = [res.department]
-        console.log(newDepartment)
         db.addDepartments(newDepartment)
         .then();
     })
@@ -110,9 +135,38 @@ async function addDepartment() {
     .then(() => init());
 };
 
-function addRole() {
-    
-    init();
+async function addRole() {
+    await inquirer.prompt(newRole).then(res => {
+       const newRole = []
+       newRole.push([res.title, res.salary, res.department_id])
+       
+       db.addRoles(newRole)
+   })
+   
+   
+   db.findAllRoles()
+   .then(([rows]) => {
+       const roles = rows;
+       console.table(roles)
+   })
+   .then(() => init());
+};
+
+async function addEmployee() {
+    await inquirer.prompt(newEmployee).then(res => {
+       const newEmployee = []
+       newEmployee.push([res.first_name, res.last_name, res.role_id, res.manager_id])
+       
+       db.addEmployees(newEmployee)
+   })
+   
+   
+   db.findAllEmployees()
+   .then(([rows]) => {
+       const employees = rows;
+       console.table(employees)
+   })
+   .then(() => init());
 };
 
 
