@@ -1,5 +1,7 @@
-const inquirer = require('inquirer')
-const db = require('./db/connection');
+const inquirer = require('inquirer');
+const { findAllDepartments } = require('./db');
+require('console.table')
+const db = require('./db');
 //const routes = require('./routes');
 
 
@@ -64,28 +66,48 @@ function init(){
 };
 
 function allDepartments() {
-    const departments = db.query('SELECT * FROM departments')
-    console.table(departments)
-    init();
+    db.findAllDepartments()
+    .then(([rows]) => {
+        const departments = rows;
+        console.table(departments)
+    })
+    .then(() => init());
 };
 
 function allRoles() {
-    const roles = db.query('SELECT * FROM roles')
-    console.table(roles)
-    init();
+    db.findAllRoles()
+    .then(([rows]) => {
+        const roles = rows;
+        console.table(roles)
+    })
+    .then(() => init());
 };
 
 function allEmployees() {
-    const employees = db.query('SELECT * FROM employee')
-    console.table(employees)
-    init();
+    db.findAllEmployees()
+    .then(([rows]) => {
+        const employees = rows;
+        console.table(employees)
+    })
+    .then(() => init());
 };
 
-function addDepartment() {
+async function addDepartment() {
+     await inquirer.prompt(newDepartment).then(res => {
+        
+        const newDepartment = [res.department]
+        console.log(newDepartment)
+        db.addDepartments(newDepartment)
+        .then();
+    })
     
-    const departments = db.query('SELECT * FROM departments')
-    console.table(departments)
-    init();
+    
+    db.findAllDepartments()
+    .then(([rows]) => {
+        const departments = rows;
+        console.table(departments)
+    })
+    .then(() => init());
 };
 
 function addRole() {
